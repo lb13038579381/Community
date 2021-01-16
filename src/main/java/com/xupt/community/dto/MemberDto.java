@@ -20,7 +20,7 @@ public class MemberDto implements Serializable {
     //学院id
     private Long collegeId;
     //专业
-    private String major;
+    private Integer majorId;
     //年级
     private Integer grade;
     //个性签名

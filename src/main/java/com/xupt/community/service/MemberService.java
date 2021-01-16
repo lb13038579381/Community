@@ -16,9 +16,9 @@ public interface MemberService {
 
     List<Member> getByRealName(String realName);
 
-    List<Member> getByMajor(String major);
+    List<Member> getByMajorId(Integer majorId);
 
-    List<Member> getByMajorAndGradeAndClazz(String major, Integer grade, Integer clazz);
+    List<Member> getByMajorIdAndGradeAndClazz(Integer majorId, Integer grade, Integer clazz);
 
     Member getByStudentNumber(Long studentNumber);
 

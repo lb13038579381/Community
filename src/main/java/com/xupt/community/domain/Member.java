@@ -12,7 +12,6 @@ import java.io.Serializable;
  */
 @Data
 public class Member extends BaseDoamin implements Serializable {
-    private static final long serialVersionUID = 1L;
     //昵称
     private String nickName;
     //真实姓名
@@ -26,7 +25,7 @@ public class Member extends BaseDoamin implements Serializable {
     //学院id
     private Long collegeId;
     //专业
-    private String major;
+    private Integer majorId;
     //年级
     private Integer grade;
     //个性签名

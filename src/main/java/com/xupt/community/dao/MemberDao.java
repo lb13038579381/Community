@@ -18,9 +18,9 @@ public interface MemberDao {
 
     List<Member> getByRealName(String realName);
 
-    List<Member> getByMajor(String major);
+    List<Member> getByMajorId(Integer major);
 
-    List<Member> getByMajorAndGradeAndClazz(Map<String, Object> params);
+    List<Member> getByMajorIdAndGradeAndClazz(Map<String, Object> params);
 
     Member getByStudentNumber(Long studentNumber);
 

@@ -39,18 +39,18 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<Member> getByMajor(String major) {
-        List<Member> res = memberDao.getByMajor(major);
+    public List<Member> getByMajorId(Integer majorId) {
+        List<Member> res = memberDao.getByMajorId(majorId);
         return CollectionUtils.isEmpty(res) ? new ArrayList<>() : res;
     }
 
     @Override
-    public List<Member> getByMajorAndGradeAndClazz(String major, Integer grade, Integer clazz) {
+    public List<Member> getByMajorIdAndGradeAndClazz(Integer majorId, Integer grade, Integer clazz) {
         Map<String, Object> params = new HashMap<>();
-        params.put("major", major);
+        params.put("major", majorId);
         params.put("grade", grade);
         params.put("clazz", clazz);
-        List<Member> res = memberDao.getByMajorAndGradeAndClazz(params);
+        List<Member> res = memberDao.getByMajorIdAndGradeAndClazz(params);
         return CollectionUtils.isEmpty(res) ? new ArrayList<>() : res;
     }
 

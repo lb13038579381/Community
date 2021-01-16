@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xupt.community.dao.MemberAndCommunityDao">
+
+    <select id="getMemberIdsByCommunityId" parameterType="java.lang.Long" resultType="java.lang.Long">
+        select member_id from member_and_community where community_id = #{communityId}
+    </select>
+
+    <select id="getTypeByCommunityIdAndMemberId" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select type from member_and_community where member_id = #{memberId} and community_id = #{communityId}
+    </select>
+
+    <select id="getCommunityIdsByMemberId" parameterType="java.lang.Long" resultType="java.lang.Long">
+        select community_id from member_and_community where member_id = #{memberId}
+    </select>
+
+    <insert id="add" parameterType="com.xupt.community.dto.MemberAndCommunityDto">
+        insert into member_and_community
+        (member_id,
+        community_id,
+        type
+        )
+        values
+            (
+            #{memberId},
+            #{communityId},
+            #{type}
+            )
+    </insert>
+    <delete id="delete" parameterType="com.xupt.community.dto.MemberAndCommunityDto">
+        delete from member_and_community where 1 = 1
+        <if test="memberId != null" >
+        and member_id = #{memberId}
+        </if>
+        <if test = "communityId != null">
+        and community_id = #{communityId}
+        </if>
+    </delete>
+
+</mapper>

@@ -4,7 +4,8 @@ import lombok.Data;
 
 @Data
 public class BaseDoamin {
-    private Long id;
-    private Long gmtCreate;
-    private Long gmtModified;
+    public static final long serialVersionUID = 1L;
+    public Long id;
+    public Long gmtCreate;
+    public Long gmtModified;
 }

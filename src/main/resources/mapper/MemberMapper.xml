@@ -12,12 +12,12 @@
         select * from member where real_name = #{realName}
     </select>
 
-    <select id="getByMajor" parameterType="java.lang.String" resultType="com.xupt.community.domain.Member">
-        select * from member where major = #{major}
+    <select id="getByMajorId" parameterType="java.lang.Integer" resultType="com.xupt.community.domain.Member">
+        select * from member where major_id = #{majorId}
     </select>
 
-    <select id="getByMajorAndGradeAndClazz" parameterType="java.util.Map" resultType="com.xupt.community.domain.Member">
-        select * from member where major = #{major} and grade = #{grade} and clazz = #{clazz}
+    <select id="getByMajorIdAndGradeAndClazz" parameterType="java.util.Map" resultType="com.xupt.community.domain.Member">
+        select * from member where major_id = #{major_id} and grade = #{grade} and clazz = #{clazz}
     </select>
 
     <select id="getByStudentNumber" parameterType="java.lang.Long" resultType="com.xupt.community.domain.Member">
@@ -39,7 +39,7 @@
         sex,
         faceUrl,
         college_id,
-        major,
+        major_id,
         grade,
         signature,
         phoneNumber,
@@ -53,7 +53,7 @@
             #{sex},
             #{faceUrl},
             #{collegeId},
-            #{major},
+            #{majorId},
             #{grade},
             #{signature},
             #{phoneNumber},

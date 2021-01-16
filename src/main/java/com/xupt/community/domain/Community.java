@@ -12,7 +12,6 @@ import java.io.Serializable;
  */
 @Data
 public class Community extends BaseDoamin implements Serializable {
-    private static final long serialVersionUID = 1L;
     //社团名称
     private String name;
     //社团类型 0：院级社团 1：校级社团 2：实验室 3：兴趣社团
