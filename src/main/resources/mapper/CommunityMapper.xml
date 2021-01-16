@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xupt.community.dao.CommunityDao">
+    <select id="getByName" parameterType="java.lang.String" resultType="com.xupt.community.domain.Community">
+        select * from community where name like %#{name}%
+    </select>
+
+    <select id="getByType" parameterType="java.util.List" resultType="com.xupt.community.domain.Community">
+        select * from community where type in
+        <foreach collection="types" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="getByOwnerId" parameterType="java.lang.Long" resultType="com.xupt.community.domain.Community">
+        select * from community where owner_id = #{ownerId}
+    </select>
+
+    <insert id="addCommunity" parameterType="com.xupt.community.dto.CommunityDto">
+        insert into community
+        (name,
+        type,
+        owner_id,
+        director_id,
+        introduction
+        value)
+        values
+            (
+            #{name},
+            #{type},
+            #{ownerId},
+            #{directorId},
+            ${introduction}
+            )
+    </insert>
+
+</mapper>

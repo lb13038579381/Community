@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xupt.community.dao.MemberDao">
+
+    <select id="getById" parameterType="java.lang.Long" resultType="com.xupt.community.domain.Member">
+        select * from member where id = #{memberId}
+    </select>
+
+    <select id="getByRealName" parameterType="java.lang.String" resultType="com.xupt.community.domain.Member">
+        select * from member where real_name = #{realName}
+    </select>
+
+    <select id="getByMajor" parameterType="java.lang.String" resultType="com.xupt.community.domain.Member">
+        select * from member where major = #{major}
+    </select>
+
+    <select id="getByMajorAndGradeAndClazz" parameterType="java.util.Map" resultType="com.xupt.community.domain.Member">
+        select * from member where major = #{major} and grade = #{grade} and clazz = #{clazz}
+    </select>
+
+    <select id="getByStudentNumber" parameterType="java.lang.Long" resultType="com.xupt.community.domain.Member">
+        select * from member where student_number = #{studentNumber}
+    </select>
+
+    <select id="getByCollegeId" parameterType="java.lang.Long" resultType="com.xupt.community.domain.Member">
+        select * from member where college_id = #{collegeId}
+    </select>
+
+    <select id="getByNickName" parameterType="java.lang.String" resultType="com.xupt.community.domain.Member">
+        select * from member where nick_name like %#{nickName}%
+    </select>
+    <insert id="addMember" parameterType="com.xupt.community.dto.MemberDto">
+        insert into member
+        (nick_name,
+        real_name,
+        student_number,
+        sex,
+        faceUrl,
+        college_id,
+        major,
+        grade,
+        signature,
+        phoneNumber,
+        clazz
+        value)
+        values
+            (
+            #{nickName},
+            #{realName},
+            #{studentNumber},
+            #{sex},
+            #{faceUrl},
+            #{collegeId},
+            #{major},
+            #{grade},
+            #{signature},
+            #{phoneNumber},
+            #{clazz}
+            )
+    </insert>
+
+
+</mapper>
