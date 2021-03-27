@@ -1,19 +1,12 @@
-package com.xupt.community.dao;
+package com.xupt.community.service;
 
 import com.xupt.community.domain.CommunityApply;
 import com.xupt.community.dto.CommunityApplyDto;
 import com.xupt.community.dto.CommunityDto;
-import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
-/**
- * @description:
- * @author: lb
- * @time: 2021/1/16 11:06 下午
- */
-@Mapper
-public interface CommunityApplyDao {
+public interface CommunityApplyService {
     void add(CommunityApply communityApply);
     void delete(CommunityApply communityApply);
     List<CommunityApply> getCommunityAppliesByCommunityId(Long communityId);

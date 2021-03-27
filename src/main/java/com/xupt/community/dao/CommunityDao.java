@@ -30,4 +30,5 @@ public interface CommunityDao {
     List<Community> getByType(List<Integer> types);
     List<Community> getByOwnerId(Long ownerId);
     void addCommunity(CommunityDto communityDto);
+    List<Community> getByCommunityIds(List<Long> communityIds);
 }

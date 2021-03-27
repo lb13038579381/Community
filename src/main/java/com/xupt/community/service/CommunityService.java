@@ -15,4 +15,5 @@ public interface CommunityService {
     List<Community> getByType(List<Integer> types);
     List<Community> getByOwnerId(Long ownerId);
     void addCommunity(CommunityDto communityDto);
+    List<Community> getByIds(List<Long> communityIds);
 }

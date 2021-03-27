@@ -34,5 +34,7 @@ public class Member extends BaseDoamin implements Serializable {
     private String phoneNumber;
     //班级
     private Integer clazz;
+    //密码（MD5加密）
+    private String password;
 
 }

@@ -47,4 +47,9 @@ public class CommunityServiceImpl implements CommunityService {
     public void addCommunity(CommunityDto communityDto) {
         communityDao.addCommunity(communityDto);
     }
+
+    @Override
+    public List<Community> getByIds(List<Long> communityIds) {
+        return null;
+    }
 }

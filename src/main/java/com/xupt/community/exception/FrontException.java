@@ -12,4 +12,8 @@ public class FrontException extends RuntimeException {
         super(msg);
         this.code = code;
     }
+    public FrontException(Exception e) {
+        super(e.toString());
+        this.code = -1;
+    }
 }

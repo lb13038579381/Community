@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xupt.community.dao.CommunityApplyDao">
+    <insert id="add" parameterType="com.xupt.community.domain.CommunityApply">
+        insert into community_apply
+        (member_id,
+        community_id,
+        apply)
+        values(
+        #{memberId},
+        #{communityId},
+        #{apply}
+        )
+    </insert>
+    <delete id="delete" parameterType="com.xupt.community.domain.CommunityApply">
+        delete  from community_apply where 1 = 1
+        <if test="memberId != null">
+            and member_id = #{memberId}
+        </if>
+        <if test="communityId != null">
+            and community_id = #{communityId}
+        </if>
+    </delete>
+
+    <select id="getCommunityAppliesByCommunityId" parameterType="java.lang.Long" resultType="com.xupt.community.domain.CommunityApply">
+        select * from community_apply where community_id = #{communityId}
+    </select>
+
+    <select id="getCommunityAppliesByMemberId" parameterType="java.lang.Long" resultType="com.xupt.community.domain.CommunityApply">
+        select * from community_apply where member_id = #{memberId}
+    </select>
+
+
+</mapper>

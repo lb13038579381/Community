@@ -35,5 +35,10 @@
             ${introduction}
             )
     </insert>
-
+    <select id="getByCommunityIds" parameterType="java.util.List" resultType="com.xupt.community.domain.Community">
+        select * from community where id in
+        <foreach collection="communityIds" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
 </mapper>

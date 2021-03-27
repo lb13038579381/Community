@@ -44,7 +44,7 @@
         signature,
         phoneNumber,
         clazz
-        value)
+        )
         values
             (
             #{nickName},

@@ -14,4 +14,5 @@ public class CommunityApplyDto implements Serializable {
     private Long memberId;
     private Long communityId;
     private String apply;
+    private Integer status;
 }
