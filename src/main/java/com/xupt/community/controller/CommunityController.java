@@ -1,6 +1,8 @@
 package com.xupt.community.controller;
 
+import com.xupt.community.constant.MemberAndCommunityConstant;
 import com.xupt.community.domain.Community;
+import com.xupt.community.domain.Member;
 import com.xupt.community.exception.FrontException;
 import com.xupt.community.service.CommunityService;
 import com.xupt.community.service.MemberAndCommunityService;
@@ -63,4 +65,48 @@ public class CommunityController {
         }
         return communityList;
     }
+
+    /**
+     * @description:我的社团 展示我管理的社团和参加的社团
+     * @params:
+     * @return:
+     * @author: lb
+     * @time: 2021/3/28 11:50 下午
+     */
+    @RequestMapping("communityJoined")
+    public List<Community> communityJoined(Long memberId) {
+        if (memberId == null || memberId.toString().length() != 8) {
+            throw new FrontException("用户id不符合规范");
+        }
+        List<Long> communityIdList = memberAndCommunityService.getCommunityIdsByMemberIdAndType(memberId, MemberAndCommunityConstant.MEMBER);
+        List<Community> communityList = communityService.getByIds(communityIdList);
+        if (CollectionUtils.isNotEmpty(communityList)) {
+            return communityList;
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
+    @RequestMapping("communityManaged")
+    public List<Community> communityManaged(Long memberId) {
+        if (memberId == null || memberId.toString().length() != 8) {
+            throw new FrontException("用户id不符合规范");
+        }
+        List<Long> communityIdList = memberAndCommunityService.getCommunityIdsByMemberIdAndType(memberId, MemberAndCommunityConstant.MANAGER);
+        List<Community> communityList = communityService.getByIds(communityIdList);
+        if (CollectionUtils.isNotEmpty(communityList)) {
+            return communityList;
+        } else {
+            return new ArrayList<>();
+        }
+    }
+    /**
+     * @description:我的社团页面点击，进入社团展示页面,分页获取社团成员
+     * @params:
+     * @return:
+     * @author: lb
+     * @time: 2021/3/29 12:08 上午
+     */
+//    public List<Member> getPageMemberListByCommunityId(Long communityId,)
+
 }

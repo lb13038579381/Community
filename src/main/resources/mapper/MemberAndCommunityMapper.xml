@@ -38,5 +38,9 @@
         and community_id = #{communityId}
         </if>
     </delete>
+    <select id="getCommunityIdsByMemberIdAndType" parameterType="java.util.Map" resultType="java.lang.Long">
+        select community_id from member_and_community where member_id = #{memberId} and type = #{type}
+    </select>
+
 
 </mapper>

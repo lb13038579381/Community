@@ -55,4 +55,12 @@ public class MemberAndCommunityServiceImpl implements MemberAndCommunityService 
     public void delete(MemberAndCommunityDto dto) {
         memberAndCommunityDao.delete(dto);
     }
+
+    @Override
+    public List<Long> getCommunityIdsByMemberIdAndType(Long memberId, Integer type) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("memberId", memberId);
+        params.put("type", type);
+        return memberAndCommunityDao.getCommunityIdsByMemberIdAndType(params);
+    }
 }

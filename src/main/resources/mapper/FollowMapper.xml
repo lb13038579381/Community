@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xupt.community.dao.FollowDao">
+    <select id="getFansByMemberId" parameterType="java.lang.Long" resultType="com.xupt.community.domain.Follow">
+    select * from follow where follower_id = #{memberId}
+</select>
+    <select id="getFollowersByMemberId" parameterType="java.lang.Long" resultType="com.xupt.community.domain.Follow">
+    select * from follow where member_id = #{memberId}
+</select>
+</mapper>

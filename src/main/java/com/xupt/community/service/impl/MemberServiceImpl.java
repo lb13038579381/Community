@@ -55,7 +55,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member getByStudentNumber(Long studentNumber) {
+    public Member getByStudentNumber(String studentNumber) {
         return memberDao.getByStudentNumber(studentNumber);
     }
 

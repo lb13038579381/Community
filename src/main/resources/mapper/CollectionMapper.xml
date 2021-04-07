@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xupt.community.dao.CollectionDao">
+    <select id="getCollectionsByMemberId" parameterType="java.lang.Long" resultType="com.xupt.community.domain.Collection">
+    select * from collection where member_id = #{memberId}
+</select>
+    <select id="getMemberIdsByInformationId" parameterType="java.lang.Long" resultType="com.xupt.community.domain.Collection">
+    select * from collection where collection_id = #{collectionId}
+</select>
+</mapper>

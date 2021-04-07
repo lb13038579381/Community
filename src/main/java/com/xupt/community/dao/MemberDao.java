@@ -22,7 +22,7 @@ public interface MemberDao {
 
     List<Member> getByMajorIdAndGradeAndClazz(Map<String, Object> params);
 
-    Member getByStudentNumber(Long studentNumber);
+    Member getByStudentNumber(String studentNumber);
 
     List<Member> getByCollegeId(Long collegeId);
 

@@ -19,4 +19,6 @@ public interface MemberAndCommunityService {
     void add(MemberAndCommunityDto dto);
 
     void delete(MemberAndCommunityDto dto);
+
+    List<Long> getCommunityIdsByMemberIdAndType(Long memberId, Integer type);
 }

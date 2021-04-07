@@ -20,7 +20,7 @@
         select * from member where major_id = #{major_id} and grade = #{grade} and clazz = #{clazz}
     </select>
 
-    <select id="getByStudentNumber" parameterType="java.lang.Long" resultType="com.xupt.community.domain.Member">
+    <select id="getByStudentNumber" parameterType="java.lang.String" resultType="com.xupt.community.domain.Member">
         select * from member where student_number = #{studentNumber}
     </select>
 

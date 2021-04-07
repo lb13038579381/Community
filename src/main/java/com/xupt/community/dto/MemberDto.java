@@ -1,8 +1,10 @@
 package com.xupt.community.dto;
 
+import com.xupt.community.domain.Member;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Optional;
 
 @Data
 public class MemberDto implements Serializable {
@@ -29,4 +31,23 @@ public class MemberDto implements Serializable {
     private String phoneNumber;
     //班级
     private Integer clazz;
+    //状态码
+    private String statusCode;
+    private String token;
+    private String msg;
+    public static MemberDto convert2MemberDto(Member member) {
+//        MemberDto memberDto = new MemberDto();
+//        memberDto.setSignature(Optional.ofNullable(member.getSignature()).orElse(""));
+//        memberDto.setFaceUrl(Optional.ofNullable(member.getFaceUrl()).orElse(""));
+//        memberDto.setClazz(Optional.ofNullable(member.getClazz()).orElse());
+//        memberDto.setCollegeId(member.getCollegeId());
+//        memberDto.setGrade(member.getGrade());
+//        memberDto.setMajorId(member.getMajorId());
+//        memberDto.setNickName(member.getNickName());
+//        memberDto.setPhoneNumber(member.getPhoneNumber());
+//        memberDto.setStudentNumber(member.getStudentNumber());
+//        memberDto.setSex(member.getSex());
+//        return memberDto;
+        return new MemberDto();
+    }
 }

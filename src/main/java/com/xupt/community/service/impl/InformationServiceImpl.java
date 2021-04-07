@@ -16,4 +16,9 @@ public class InformationServiceImpl implements InformationService {
     public List<Information> getLatestInformations() {
         return informationDao.getLatestInformations();
     }
+
+    @Override
+    public List<Information> getByIds(List<Long> informationIds) {
+        return informationDao.getByIds(informationIds);
+    }
 }

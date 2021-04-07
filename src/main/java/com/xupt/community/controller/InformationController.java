@@ -28,6 +28,13 @@ public class InformationController {
     @Autowired
     InformationService informationService;
 
+    /**
+     * @description:最新动态
+     * @params: []
+     * @return: java.util.List<com.xupt.community.domain.Information>
+     * @author: lb
+     * @time: 2021/4/8 12:18 上午
+     */
     @RequestMapping("getLatestInformations")
     public List<Information> getLatestInformations() {
         List<Information> result = informationService.getLatestInformations();
@@ -37,4 +44,5 @@ public class InformationController {
             return new ArrayList<>();
         }
     }
+
 }

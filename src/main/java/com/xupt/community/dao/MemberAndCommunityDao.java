@@ -23,4 +23,6 @@ public interface MemberAndCommunityDao {
 
     void delete(MemberAndCommunityDto dto);
 
+    List<Long> getCommunityIdsByMemberIdAndType(Map<String,Object> params);
+
 }

@@ -20,7 +20,7 @@ public interface MemberService {
 
     List<Member> getByMajorIdAndGradeAndClazz(Integer majorId, Integer grade, Integer clazz);
 
-    Member getByStudentNumber(Long studentNumber);
+    Member getByStudentNumber(String studentNumber);
 
     List<Member> getByCollegeId(Long collegeId);
 

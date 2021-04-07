@@ -8,4 +8,5 @@ import java.util.List;
 @Mapper
 public interface InformationDao {
     List<Information> getLatestInformations();
+    List<Information> getByIds(List<Long> informationIds);
 }
