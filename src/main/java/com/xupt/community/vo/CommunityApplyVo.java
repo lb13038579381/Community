@@ -1,5 +1,6 @@
 package com.xupt.community.vo;
 
+import com.xupt.community.domain.Community;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -15,4 +16,5 @@ public class CommunityApplyVo implements Serializable {
     private String apply;
     private Integer status;
     private String communityName;
+
 }

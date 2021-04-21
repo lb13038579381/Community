@@ -1,6 +1,6 @@
 package com.xupt.community.controller;
 
-import com.xupt.community.domain.Collection;
+import com.xupt.community.domain.Collections;
 import com.xupt.community.domain.Information;
 import com.xupt.community.domain.Member;
 import com.xupt.community.service.CollectionService;
@@ -38,7 +38,7 @@ public class CollectionController {
         if (memberId == null) {
             return new ArrayList<>();
         }
-        List<Collection> collectionList = collectionService.getCollectionsByMemberId(memberId);
+        List<Collections> collectionList = collectionService.getCollectionsByMemberId(memberId);
         List<Long> informationIdList = PropertyExtractUtils.getByPropertyValue(collectionList, "informationId", Long.class);
         List<Information> result = informationService.getByIds(informationIdList);
         if (CollectionUtils.isNotEmpty(result)) {
@@ -60,7 +60,7 @@ public class CollectionController {
         if (informationId == null) {
             return new ArrayList<>();
         }
-        List<Collection> collectionList = collectionService.getMemberIdsByInformationId(informationId);
+        List<Collections> collectionList = collectionService.getMemberIdsByInformationId(informationId);
         List<Long> memberIds = PropertyExtractUtils.getByPropertyValue(collectionList, "memberId", Long.class);
         List<Member> result = new ArrayList<>();
         for (Long memberId : memberIds) {

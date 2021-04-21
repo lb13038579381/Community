@@ -75,4 +75,9 @@ public class MemberServiceImpl implements MemberService {
     public void addMember(MemberDto memberDto) {
         memberDao.addMember(memberDto);
     }
+
+    @Override
+    public List<Member> getByIds(List<Long> memberIds) {
+        return memberDao.getByIds(memberIds);
+    }
 }

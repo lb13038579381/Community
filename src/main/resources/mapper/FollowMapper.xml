@@ -3,10 +3,30 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.xupt.community.dao.FollowDao">
-    <select id="getFansByMemberId" parameterType="java.lang.Long" resultType="com.xupt.community.domain.Follow">
-    select * from follow where follower_id = #{memberId}
-</select>
-    <select id="getFollowersByMemberId" parameterType="java.lang.Long" resultType="com.xupt.community.domain.Follow">
+    <select id="myFollow" parameterType="java.lang.Long" resultType="com.xupt.community.domain.Follow">
     select * from follow where member_id = #{memberId}
 </select>
+    <select id="followedMembers" parameterType="java.lang.Long" resultType="com.xupt.community.domain.Follow">
+    select * from follow where community_id = #{communityId}
+</select>
+
+    <delete id="delete" parameterType="com.xupt.community.domain.Follow">
+        delete from follow where 1 = 1
+        <if test="memberId != null" >
+            and member_id = #{memberId}
+        </if>
+        <if test = "communityId != null">
+            and community_id = #{communityId}
+        </if>
+    </delete>
+
+    <insert id="add" parameterType="com.xupt.community.domain.Follow">
+        insert into follow (
+        member_id,
+        community_id
+        ) values (
+        #{memberId},
+        #{communityId}
+        )
+    </insert>
 </mapper>

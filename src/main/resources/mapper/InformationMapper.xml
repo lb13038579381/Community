@@ -10,6 +10,30 @@
         </foreach>
     </select>
 <select id="getLatestInformations" resultType="com.xupt.community.domain.Information">
-    select * from information order by time desc limit 10
+    select * from information order by gmt_create desc limit 10
 </select>
+    <insert id="addInformation">
+        insert into information (
+        title,
+        text,
+        time,
+        address,
+        cov_pic_url,
+        poster_id,
+        community_id,
+        gmt_create
+        )values(
+        title,
+        text,
+        time,
+        address,
+        covPicUrl,
+        posterId,
+        communityId,
+        gmtCreate
+        )
+    </insert>
+    <select id="list" resultType="com.xupt.community.domain.Information">
+        select * from information order by gmt_create desc
+    </select>
 </mapper>

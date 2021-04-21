@@ -21,4 +21,14 @@ public class InformationServiceImpl implements InformationService {
     public List<Information> getByIds(List<Long> informationIds) {
         return informationDao.getByIds(informationIds);
     }
+
+    @Override
+    public void addInformation(Information information) {
+        informationDao.addInformation(information);
+    }
+
+    @Override
+    public List<Information> list() {
+        return informationDao.list();
+    }
 }

@@ -30,4 +30,5 @@ public interface MemberDao {
 
     void addMember(MemberDto memberDto);
 
+    List<Member> getByIds(List<Long> memberIds);
 }

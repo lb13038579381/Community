@@ -14,12 +14,22 @@ public class FollowServiceImpl implements FollowService {
     @Autowired
     FollowDao followDao;
     @Override
-    public List<Follow> getFansByMemberId(Long memberId) {
-        return followDao.getFansByMemberId(memberId);
+    public List<Follow> myFollow(Long memberId) {
+        return followDao.myFollow(memberId);
     }
 
     @Override
-    public List<Follow> getFollersByMemberId(Long memberId) {
-        return followDao.getFollowersByMemberId(memberId);
+    public List<Follow> followedMembers(Long communityId) {
+        return followDao.followedMembers(communityId);
+    }
+
+    @Override
+    public void delete(Follow follow) {
+        followDao.delete(follow);
+    }
+
+    @Override
+    public void add(Follow follow) {
+        followDao.add(follow);
     }
 }

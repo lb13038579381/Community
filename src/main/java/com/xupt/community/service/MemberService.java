@@ -27,4 +27,6 @@ public interface MemberService {
     List<Member> getByNickName(String nickName);
 
     void addMember(MemberDto memberDto);
+
+    List<Member> getByIds(List<Long> memberIds);
 }

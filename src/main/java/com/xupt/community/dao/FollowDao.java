@@ -7,6 +7,9 @@ import java.util.List;
 
 @Mapper
 public interface FollowDao {
-    List<Follow> getFansByMemberId(Long memberId);
-    List<Follow> getFollowersByMemberId(Long memberId);
+    List<Follow> myFollow(Long memberId);
+    List<Follow> followedMembers(Long communityId);
+    void delete(Follow follow);
+
+    void add(Follow follow);
 }

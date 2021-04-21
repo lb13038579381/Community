@@ -1,9 +1,11 @@
 package com.xupt.community.controller;
 
+import com.xupt.community.domain.Community;
 import com.xupt.community.domain.Follow;
 import com.xupt.community.domain.Member;
 import com.xupt.community.dto.MemberDto;
 import com.xupt.community.exception.FrontException;
+import com.xupt.community.service.CommunityService;
 import com.xupt.community.service.FollowService;
 import com.xupt.community.service.MemberService;
 import com.xupt.community.util.MD5Utils;
@@ -34,6 +36,9 @@ public class MemberController {
 
     @Autowired
     FollowService followService;
+
+    @Autowired
+    CommunityService communityService;
 
     /**
      * @description:新增用户
@@ -70,6 +75,7 @@ public class MemberController {
         } else {
             loginVo.setStatusCode("200");
             loginVo.setToken("token");
+            loginVo.setMemberId(member.getId());
             return loginVo;
         }
     }
@@ -148,19 +154,38 @@ public class MemberController {
      * @time: 2021/4/7 11:53 下午
      */
     @RequestMapping("myFollowers")
-    public List<Member> getMyFollowers(Long memberId) {
+    public List<Community> getMyFollowers(Long memberId) {
         if (memberId == null) {
             return new ArrayList<>();
         }
-        List<Follow> followList = followService.getFollersByMemberId(memberId);
-        List<Long> followerIdList = PropertyExtractUtils.getByPropertyValue(followList, "followerId", Long.class);
-        List<Member> result = new ArrayList<>();
-        for (Long followerId : followerIdList) {
-            Member member = memberService.getById(followerId);
-            if (member != null) {
-                result.add(member);
-            }
+        List<Follow> followList = followService.myFollow(memberId);
+        List<Long> communityIdList = PropertyExtractUtils.getByPropertyValue(followList, "communityId", Long.class);
+        if (CollectionUtils.isEmpty(communityIdList)) {
+            return new ArrayList<>();
         }
+        List<Community> myFollow = communityService.getByIds(communityIdList);
+        if (CollectionUtils.isNotEmpty(myFollow)) {
+            return myFollow;
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
+    /**
+     * @description:社团关注列表
+     * @params:
+     * @return:
+     * @author: lb
+     * @time: 2021/4/7 11:57 下午
+     */
+    @RequestMapping("followedMembers")
+    public List<Member> followedMembers(Long communityId) {
+        if (communityId == null) {
+            return new ArrayList<>();
+        }
+        List<Follow> followList = followService.followedMembers(communityId);
+        List<Long> memberIdList = PropertyExtractUtils.getByPropertyValue(followList, "memberId", Long.class);
+        List<Member> result = memberService.getByIds(memberIdList);
         if (CollectionUtils.isNotEmpty(result)) {
             return result;
         } else {
@@ -169,30 +194,31 @@ public class MemberController {
     }
 
     /**
-     * @description:我的粉丝列表
-     * @params:
-     * @return:
+     * @description:取消关注
+     * @params: [memberId, id]
+     * @return: java.lang.String
      * @author: lb
-     * @time: 2021/4/7 11:57 下午
+     * @time: 2021/4/19 6:05 下午
      */
-    @RequestMapping("myFans")
-    public List<Member> getMyFans(Long memberId) {
-        if (memberId == null) {
-            return new ArrayList<>();
+    @RequestMapping("cancelFollow")
+    public String cancelFollow(Long memberId, Long communityId) {
+        Follow follow = new Follow();
+        follow.setMemberId(memberId);
+        follow.setCommunityId(communityId);
+        followService.delete(follow);
+        return "success";
+    }
+
+
+    @RequestMapping("follow")
+    public String follow(Long memberId, Long communityId) {
+        if (memberId == null || communityId == null) {
+            return "fail";
         }
-        List<Follow> followList = followService.getFansByMemberId(memberId);
-        List<Long> fanIdList = PropertyExtractUtils.getByPropertyValue(followList, "memberId", Long.class);
-        List<Member> result = new ArrayList<>();
-        for (Long fanId : fanIdList) {
-            Member member = memberService.getById(fanId);
-            if (member != null) {
-                result.add(member);
-            }
-        }
-        if (CollectionUtils.isNotEmpty(result)) {
-            return result;
-        } else {
-            return new ArrayList<>();
-        }
+        Follow follow = new Follow();
+        follow.setMemberId(memberId);
+        follow.setCommunityId(communityId);
+        followService.add(follow);
+        return "success";
     }
 }

@@ -5,6 +5,9 @@ import com.xupt.community.domain.Follow;
 import java.util.List;
 
 public interface FollowService {
-    List<Follow> getFansByMemberId(Long memberId);
-    List<Follow> getFollersByMemberId(Long memberId);
+    List<Follow> myFollow(Long memberId);
+    List<Follow> followedMembers(Long communityId);
+    void delete(Follow follow);
+
+    void add(Follow follow);
 }

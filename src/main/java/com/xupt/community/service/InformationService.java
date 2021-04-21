@@ -7,4 +7,8 @@ import java.util.List;
 public interface InformationService {
     List<Information> getLatestInformations();
     List<Information> getByIds(List<Long> informationIds);
+
+    void addInformation(Information information);
+
+    List<Information> list();
 }

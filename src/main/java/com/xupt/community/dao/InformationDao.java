@@ -9,4 +9,8 @@ import java.util.List;
 public interface InformationDao {
     List<Information> getLatestInformations();
     List<Information> getByIds(List<Long> informationIds);
+
+    void addInformation(Information information);
+
+    List<Information> list();
 }

@@ -8,6 +8,13 @@
         select * from member where id = #{memberId}
     </select>
 
+    <select id="getByIds" parameterType="java.lang.Long" resultType="com.xupt.community.domain.Member">
+        select * from member where id in
+        <foreach collection="memberIds" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
     <select id="getByRealName" parameterType="java.lang.String" resultType="com.xupt.community.domain.Member">
         select * from member where real_name = #{realName}
     </select>

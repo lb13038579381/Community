@@ -7,4 +7,5 @@ public class LoginVo {
     private String statusCode;
     private String token;
     private String msg;
+    private Long memberId;
 }

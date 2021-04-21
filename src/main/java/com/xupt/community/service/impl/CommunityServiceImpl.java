@@ -50,6 +50,16 @@ public class CommunityServiceImpl implements CommunityService {
 
     @Override
     public List<Community> getByIds(List<Long> communityIds) {
-        return null;
+        return communityDao.getByIds(communityIds);
+    }
+
+    @Override
+    public List<Community> list() {
+        return communityDao.list();
+    }
+
+    @Override
+    public Community getById(Long communityId) {
+        return communityDao.getById(communityId);
     }
 }

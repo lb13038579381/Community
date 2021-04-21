@@ -6,16 +6,19 @@ import com.xupt.community.domain.Member;
 import com.xupt.community.exception.FrontException;
 import com.xupt.community.service.CommunityService;
 import com.xupt.community.service.MemberAndCommunityService;
+import com.xupt.community.service.MemberService;
+import com.xupt.community.vo.CommunityApplyVo;
+import com.xupt.community.vo.CommunityDetailVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,9 +27,8 @@ import java.util.List;
  * @author: lb
  * @time: 2021/3/28 1:09 上午
  */
-@Controller
+@RestController
 @Slf4j
-@Resource
 @RequestMapping("communityController")
 public class CommunityController {
     private static Logger logger = LoggerFactory.getLogger(CommunityController.class);
@@ -37,12 +39,16 @@ public class CommunityController {
     @Autowired
     MemberAndCommunityService memberAndCommunityService;
 
-    @RequestMapping("getCommunityByName")
-    public List<Community> getCommunityByName(String name) {
-        if (name == null || name.length() == 0) {
+    @Autowired
+    MemberService memberService;
+
+    @RequestMapping(value = "getCommunityByName")
+    public List<Community> getCommunityByName(String words) {
+        System.out.println(words);
+        if (words == null || words.length() == 0) {
             throw new FrontException("搜索名称不能为空");
         }
-        List<Community> communityList = communityService.getByName(name);
+        List<Community> communityList = communityService.getByName(words);
         if (CollectionUtils.isNotEmpty(communityList)) {
             return communityList;
         } else {
@@ -100,6 +106,7 @@ public class CommunityController {
             return new ArrayList<>();
         }
     }
+
     /**
      * @description:我的社团页面点击，进入社团展示页面,分页获取社团成员
      * @params:
@@ -109,4 +116,55 @@ public class CommunityController {
      */
 //    public List<Member> getPageMemberListByCommunityId(Long communityId,)
 
+    /**
+     * @description:全部社团
+     * @params: []
+     * @return: java.util.List<com.xupt.community.domain.Community>
+     * @author: lb
+     * @time: 2021/4/8 10:18 下午
+     */
+    @RequestMapping("list")
+    public List<Community> list() {
+        List<Community> result = communityService.list();
+        if (CollectionUtils.isNotEmpty(result)) {
+            return result;
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
+    @RequestMapping("getById/{communityId}")
+    public CommunityDetailVo getById(@PathVariable Long communityId) {
+        System.out.println(communityId);
+        if (communityId == null) {
+            return new CommunityDetailVo();
+        }
+        Community community = communityService.getById(communityId);
+        if (community != null) {
+            CommunityDetailVo result = CommunityDetailVo.convert2Vo(community);
+            List<Long> memberIds = memberAndCommunityService.getMemberIdsByCommunityId(communityId);
+            List<Member> members = memberService.getByIds(memberIds);
+            result.setMembers(members);
+            return result;
+        } else {
+            return new CommunityDetailVo();
+        }
+    }
+
+    @RequestMapping("myCommunity")
+    public List<Community> myCommunity(Long memberId) {
+        if (memberId == null) {
+            return new ArrayList<>();
+        }
+        List<Long> communityIds = memberAndCommunityService.getCommunityIdsByMemberId(memberId);
+        if (CollectionUtils.isEmpty(communityIds)) {
+            return new ArrayList<>();
+        }
+        List<Community> myCommunity = communityService.getByIds(communityIds);
+        if (CollectionUtils.isNotEmpty(myCommunity)) {
+            return myCommunity;
+        } else {
+            return new ArrayList<>();
+        }
+    }
 }
