@@ -218,7 +218,12 @@ public class MemberController {
         Follow follow = new Follow();
         follow.setMemberId(memberId);
         follow.setCommunityId(communityId);
-        followService.add(follow);
+        Follow result = followService.getByMemberIdAndCommunityId(memberId, communityId);
+        if (result == null) {
+            followService.add(follow);
+        }else{
+            followService.delete(result);
+        }
         return "success";
     }
 }

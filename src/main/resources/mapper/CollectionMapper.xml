@@ -9,4 +9,25 @@
     <select id="getMemberIdsByInformationId" parameterType="java.lang.Long" resultType="com.xupt.community.domain.Collections">
     select * from collection where collection_id = #{collectionId}
 </select>
+    <insert id="add" parameterType="com.xupt.community.domain.Collections">
+        insert into collection (
+        member_id,
+        information_id
+        ) values(
+        #{memberId},
+        #{informationId}
+        )
+    </insert>
+    <select id="getByMemberIdAndInformationId" parameterType="com.xupt.community.domain.Collections" resultType="com.xupt.community.domain.Collections">
+        select * from collection where member_id = #{memberId} and information_id = #{informationId}
+    </select>
+    <delete id="delete" parameterType="com.xupt.community.domain.Collections">
+        delete  from collection where 1 = 1
+        <if test="memberId != null">
+            and member_id = #{memberId}
+        </if>
+        <if test="informationId != null">
+            and information_id = #{informationId}
+        </if>
+    </delete>
 </mapper>

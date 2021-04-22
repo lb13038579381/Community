@@ -22,6 +22,8 @@ public class CommunityDetailVo {
 
     private List<Member> members;
 
+    private Boolean follow;
+
     public static CommunityDetailVo convert2Vo(Community community) {
 
         CommunityDetailVo result = new CommunityDetailVo();

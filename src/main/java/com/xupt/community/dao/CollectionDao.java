@@ -9,4 +9,10 @@ import java.util.List;
 public interface CollectionDao {
     List<Collections> getCollectionsByMemberId(Long memberId);
     List<Collections> getMemberIdsByInformationId(Long informationId);
+
+    void add(Collections collections);
+
+    Collections getByMemberIdAndInformationId(Collections collections);
+
+    void delete(Collections collections);
 }

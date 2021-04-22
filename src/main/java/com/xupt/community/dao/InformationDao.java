@@ -13,4 +13,6 @@ public interface InformationDao {
     void addInformation(Information information);
 
     List<Information> list();
+
+    List<Information> getByCommunityId(Long communityId);
 }

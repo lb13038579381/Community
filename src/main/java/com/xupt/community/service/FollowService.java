@@ -10,4 +10,6 @@ public interface FollowService {
     void delete(Follow follow);
 
     void add(Follow follow);
+
+    Follow getByMemberIdAndCommunityId(Long memberId, Long communityId);
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xupt.community.dao.InformationApplyDao">
+    <select id="getByMemberIdAndInformationId" parameterType="com.xupt.community.domain.InformationApply" resultType="com.xupt.community.domain.InformationApply">
+    select * from information_apply where member_id = #{memberId} and information_id = #{informationId}
+</select>
+    <select id="getByMemberId" parameterType="java.lang.Long" resultType="com.xupt.community.domain.InformationApply">
+    select * from information_apply where member_id = #{memberId}
+</select>
+    <insert id="add" parameterType="com.xupt.community.domain.InformationApply">
+        insert into information_apply (
+        member_id,
+        information_id,
+        phone_number,
+        remark
+        ) values(
+        #{memberId},
+        #{informationId},
+        #{phoneNumber},
+        #{remark}
+        )
+    </insert>
+    <select id="getByInformationId" parameterType="java.lang.Long" resultType="com.xupt.community.domain.InformationApply">
+        select * from information_apply where information_id = #{informationId}
+    </select>
+</mapper>

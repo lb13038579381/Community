@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.xupt.community.dao.InformationDao">
-    <select id="getByIds" parameterType="java.lang.String" resultType="com.xupt.community.domain.Community">
+    <select id="getByIds" parameterType="java.lang.String" resultType="com.xupt.community.domain.Information">
         select * from information where id in
         <foreach collection="informationIds" item="item" index="index" open="(" separator="," close=")">
             #{item}
@@ -35,5 +35,9 @@
     </insert>
     <select id="list" resultType="com.xupt.community.domain.Information">
         select * from information order by gmt_create desc
+    </select>
+
+    <select id="getByCommunityId" parameterType="java.lang.Long" resultType="com.xupt.community.domain.Information">
+        select * from information where community_id = #{communityId}
     </select>
 </mapper>

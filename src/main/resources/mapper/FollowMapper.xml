@@ -29,4 +29,8 @@
         #{communityId}
         )
     </insert>
+
+    <select id="getByMemberIdAndCommunityId" parameterType="com.xupt.community.domain.Follow" resultType="com.xupt.community.domain.Follow">
+        select * from follow where member_id = #{memberId} and community_id = #{communityId}
+    </select>
 </mapper>

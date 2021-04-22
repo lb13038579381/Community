@@ -2,9 +2,11 @@ package com.xupt.community.controller;
 
 import com.xupt.community.constant.MemberAndCommunityConstant;
 import com.xupt.community.domain.Community;
+import com.xupt.community.domain.Follow;
 import com.xupt.community.domain.Member;
 import com.xupt.community.exception.FrontException;
 import com.xupt.community.service.CommunityService;
+import com.xupt.community.service.FollowService;
 import com.xupt.community.service.MemberAndCommunityService;
 import com.xupt.community.service.MemberService;
 import com.xupt.community.vo.CommunityApplyVo;
@@ -42,6 +44,8 @@ public class CommunityController {
     @Autowired
     MemberService memberService;
 
+    @Autowired
+    FollowService followService;
     @RequestMapping(value = "getCommunityByName")
     public List<Community> getCommunityByName(String words) {
         System.out.println(words);
@@ -133,9 +137,8 @@ public class CommunityController {
         }
     }
 
-    @RequestMapping("getById/{communityId}")
-    public CommunityDetailVo getById(@PathVariable Long communityId) {
-        System.out.println(communityId);
+    @RequestMapping("getById")
+    public CommunityDetailVo getById(Long communityId,Long memberId) {
         if (communityId == null) {
             return new CommunityDetailVo();
         }
@@ -145,6 +148,10 @@ public class CommunityController {
             List<Long> memberIds = memberAndCommunityService.getMemberIdsByCommunityId(communityId);
             List<Member> members = memberService.getByIds(memberIds);
             result.setMembers(members);
+            Follow follow = followService.getByMemberIdAndCommunityId(memberId,communityId);
+            if(follow != null) {
+                result.setFollow(true);
+            }
             return result;
         } else {
             return new CommunityDetailVo();

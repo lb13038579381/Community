@@ -21,4 +21,22 @@ public class CollectionServiceImpl implements CollectionService {
     public List<Collections> getMemberIdsByInformationId(Long informationId) {
         return collectionDao.getMemberIdsByInformationId(informationId);
     }
+
+    @Override
+    public void add(Collections collections) {
+        collectionDao.add(collections);
+    }
+
+    @Override
+    public Collections getByMemberIdAndInformationId(Long memberId, Long id) {
+        Collections collections = new Collections();
+        collections.setMemberId(memberId);
+        collections.setInformationId(id);
+        return collectionDao.getByMemberIdAndInformationId(collections);
+    }
+
+    @Override
+    public void delete(Collections collections) {
+        collectionDao.delete(collections);
+    }
 }

@@ -12,4 +12,6 @@ public interface FollowDao {
     void delete(Follow follow);
 
     void add(Follow follow);
+
+    Follow getByMemberIdAndCommunityId(Follow follow);
 }

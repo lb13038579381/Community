@@ -1,9 +1,10 @@
 package com.xupt.community.domain;
 
+import com.xupt.community.util.BaseDoamin;
 import lombok.Data;
 
 @Data
-public class Information {
+public class Information extends BaseDoamin {
     private String title;
     private String text;
     private Long time;
@@ -12,4 +13,6 @@ public class Information {
     private Long posterId;
     private Long communityId;
     private Long gmtCreate;
+    private Long startTime;
+    private Long endTime;
 }

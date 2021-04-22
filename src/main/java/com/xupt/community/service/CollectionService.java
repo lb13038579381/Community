@@ -7,4 +7,10 @@ import java.util.List;
 public interface CollectionService {
     List<Collections> getCollectionsByMemberId(Long memberId);
     List<Collections> getMemberIdsByInformationId(Long informationId);
+
+    void add(Collections collections);
+
+    Collections getByMemberIdAndInformationId(Long memberId, Long id);
+
+    void delete(Collections collections);
 }

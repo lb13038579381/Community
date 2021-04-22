@@ -32,4 +32,12 @@ public class FollowServiceImpl implements FollowService {
     public void add(Follow follow) {
         followDao.add(follow);
     }
+
+    @Override
+    public Follow getByMemberIdAndCommunityId(Long memberId, Long communityId) {
+        Follow follow = new Follow();
+        follow.setMemberId(memberId);
+        follow.setCommunityId(communityId);
+        return followDao.getByMemberIdAndCommunityId(follow);
+    }
 }

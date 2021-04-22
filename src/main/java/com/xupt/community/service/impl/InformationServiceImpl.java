@@ -31,4 +31,9 @@ public class InformationServiceImpl implements InformationService {
     public List<Information> list() {
         return informationDao.list();
     }
+
+    @Override
+    public List<Information> getByCommunityId(Long communityId) {
+        return informationDao.getByCommunityId(communityId);
+    }
 }

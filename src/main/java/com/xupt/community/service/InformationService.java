@@ -11,4 +11,6 @@ public interface InformationService {
     void addInformation(Information information);
 
     List<Information> list();
+
+    List<Information> getByCommunityId(Long communityId);
 }
