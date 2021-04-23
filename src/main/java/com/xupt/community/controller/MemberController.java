@@ -209,7 +209,13 @@ public class MemberController {
         return "success";
     }
 
-
+    /**
+     * @description:关注和取关
+     * @params: [memberId, communityId]
+     * @return: java.lang.String
+     * @author: lb
+     * @time: 2021/4/24 1:53 上午
+     */
     @RequestMapping("follow")
     public String follow(Long memberId, Long communityId) {
         if (memberId == null || communityId == null) {
@@ -221,9 +227,29 @@ public class MemberController {
         Follow result = followService.getByMemberIdAndCommunityId(memberId, communityId);
         if (result == null) {
             followService.add(follow);
-        }else{
+        } else {
             followService.delete(result);
         }
         return "success";
+    }
+
+    /**
+     * @description:个人中心
+     * @params: [memberId]
+     * @return: com.xupt.community.domain.Member
+     * @author: lb
+     * @time: 2021/4/24 1:54 上午
+     */
+    @RequestMapping("myInfo")
+    public Member myInfo(Long memberId) {
+        if (memberId == null) {
+            return new Member();
+        }
+        Member member = memberService.getById(memberId);
+        if (member != null) {
+            return member;
+        } else {
+            return new Member();
+        }
     }
 }

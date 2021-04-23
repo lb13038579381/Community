@@ -36,4 +36,14 @@ public class InformationServiceImpl implements InformationService {
     public List<Information> getByCommunityId(Long communityId) {
         return informationDao.getByCommunityId(communityId);
     }
+
+    @Override
+    public void addCount(Long informationId) {
+        informationDao.addCount(informationId);
+    }
+
+    @Override
+    public List<Information> getByCommunityIds(List<Long> communityIds) {
+        return informationDao.getByCommunityIds(communityIds);
+    }
 }

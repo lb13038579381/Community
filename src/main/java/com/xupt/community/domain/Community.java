@@ -23,4 +23,6 @@ public class Community extends BaseDoamin implements Serializable {
     //社团简介
     private String introduction;
 
+    private String thumbnail;
+
 }

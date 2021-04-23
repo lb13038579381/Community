@@ -15,4 +15,7 @@ public class Information extends BaseDoamin {
     private Long gmtCreate;
     private Long startTime;
     private Long endTime;
+    private Integer count;
+    private Integer people;
+    private String thumbnail;
 }

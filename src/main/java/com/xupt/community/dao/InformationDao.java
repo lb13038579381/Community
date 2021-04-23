@@ -15,4 +15,8 @@ public interface InformationDao {
     List<Information> list();
 
     List<Information> getByCommunityId(Long communityId);
+
+    void addCount(Long informationId);
+
+    List<Information> getByCommunityIds(List<Long> communityIds);
 }

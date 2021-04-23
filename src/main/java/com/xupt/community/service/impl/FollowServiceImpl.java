@@ -40,4 +40,5 @@ public class FollowServiceImpl implements FollowService {
         follow.setCommunityId(communityId);
         return followDao.getByMemberIdAndCommunityId(follow);
     }
+
 }

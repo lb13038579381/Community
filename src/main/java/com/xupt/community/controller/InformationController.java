@@ -2,14 +2,8 @@ package com.xupt.community.controller;
 
 import com.xupt.community.constant.InformationApplyConstant;
 import com.xupt.community.constant.InformationConstant;
-import com.xupt.community.domain.Collections;
-import com.xupt.community.domain.Community;
-import com.xupt.community.domain.Information;
-import com.xupt.community.domain.InformationApply;
-import com.xupt.community.service.CollectionService;
-import com.xupt.community.service.CommunityService;
-import com.xupt.community.service.InformationApplyService;
-import com.xupt.community.service.InformationService;
+import com.xupt.community.domain.*;
+import com.xupt.community.service.*;
 import com.xupt.community.util.DateUtils;
 import com.xupt.community.util.PropertyExtractUtils;
 import com.xupt.community.vo.CommunityDetailVo;
@@ -50,6 +44,9 @@ public class InformationController {
 
     @Autowired
     InformationApplyService informationApplyService;
+
+    @Autowired
+    FollowService followService;
 
     /**
      * @description:最新动态
@@ -105,7 +102,7 @@ public class InformationController {
     public List<Information> list() {
         List<Information> result = informationService.list();
         if (CollectionUtils.isNotEmpty(result)) {
-            return result;
+            return result.subList(0, result.size() / 2);
         } else {
             return new ArrayList<>();
         }
@@ -187,6 +184,7 @@ public class InformationController {
             apply.setApplyTime(System.currentTimeMillis());
             apply.setStatus(InformationApplyConstant.PENDING);
             informationApplyService.add(apply);
+            informationService.addCount(apply.getInformationId());
         } catch (Exception e) {
             result.setErrorCode(InformationApplyConstant.FAIL);
             return result;
@@ -282,6 +280,82 @@ public class InformationController {
         } else {
             return new ArrayList<>();
         }
+    }
+
+    /**
+     * @description:所有活动
+     * @params: []
+     * @return: java.util.List<com.xupt.community.vo.InformationVo>
+     * @author: lb
+     * @time: 2021/4/24 1:33 上午
+     */
+    @RequestMapping("all")
+    public List<InformationVo> all() {
+        List<Information> informationList = informationService.list();
+        List<InformationVo> result = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(informationList)) {
+            for (Information information : informationList) {
+                InformationVo vo = InformationVo.convert(information);
+                Community community = communityService.getById(vo.getCommunityId());
+                vo.setCommunityName(community.getName());
+                vo.setType(1);
+                result.add(vo);
+            }
+            return result;
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
+    @RequestMapping("myFollow")
+    public List<InformationVo> myFollow(Long memberId) {
+        if (memberId == null) {
+            return new ArrayList<>();
+        }
+        //获取关注的社团id
+        List<Follow> follows = followService.myFollow(memberId);
+        List<Long> communityIds = PropertyExtractUtils.getByPropertyValue(follows, "communityId", Long.class);
+        if (CollectionUtils.isEmpty(communityIds)) {
+            return new ArrayList<>();
+        }
+        List<Information> informationList = informationService.getByCommunityIds(communityIds);
+        List<InformationVo> result = new ArrayList<>();
+        if (CollectionUtils.isNotEmpty(informationList)) {
+            for (Information information : informationList) {
+                InformationVo vo = InformationVo.convert(information);
+                Community community = communityService.getById(vo.getCommunityId());
+                vo.setCommunityName(community.getName());
+                vo.setType(1);
+                result.add(vo);
+            }
+            return result;
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
+    @RequestMapping("collectList")
+    public List<InformationVo> collectList(Long memberId) {
+        if (memberId == null) {
+            return new ArrayList<>();
+        }
+        List<Collections> collectionsList = collectionService.getCollectionsByMemberId(memberId);
+        if (CollectionUtils.isNotEmpty(collectionsList)) {
+            List<Long> informationIdList = PropertyExtractUtils.getByPropertyValue(collectionsList, "informationId", Long.class);
+            List<Information> informationList = informationService.getByIds(informationIdList);
+            List<InformationVo> result = new ArrayList<>();
+            for (Information information : informationList) {
+                InformationVo vo = InformationVo.convert(information);
+                Community community = communityService.getById(vo.getCommunityId());
+                vo.setCommunityName(community.getName());
+                vo.setType(1);
+                result.add(vo);
+            }
+            return result;
+        }else {
+            return new ArrayList<>();
+        }
+
     }
 
 }

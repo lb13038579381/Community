@@ -40,4 +40,15 @@
     <select id="getByCommunityId" parameterType="java.lang.Long" resultType="com.xupt.community.domain.Information">
         select * from information where community_id = #{communityId}
     </select>
+
+    <update id="addCount" parameterType="java.lang.Long">
+        update information set count = count+1 where id = #{informationId}
+    </update>
+
+    <select id="getByCommunityIds" parameterType="java.lang.Long" resultType="com.xupt.community.domain.Information">
+        select * from information where community_id in
+        <foreach collection="communityIds" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
 </mapper>

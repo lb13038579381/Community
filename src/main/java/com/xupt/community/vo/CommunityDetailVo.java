@@ -24,6 +24,8 @@ public class CommunityDetailVo {
 
     private Boolean follow;
 
+    private String thumbnail;
+
     public static CommunityDetailVo convert2Vo(Community community) {
 
         CommunityDetailVo result = new CommunityDetailVo();
@@ -33,6 +35,7 @@ public class CommunityDetailVo {
         result.setIntroduction(community.getIntroduction());
         result.setOwnerId(community.getOwnerId());
         result.setType(community.getType());
+        result.setThumbnail(community.getThumbnail());
         return result;
 
     }

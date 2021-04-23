@@ -27,7 +27,10 @@ public class InformationVo {
     private String endTimeStr;
     private Integer status;
     private Integer length;
-
+    private Integer count;
+    private Integer people;
+    private Integer type;
+    private String thumbnail;
     public static InformationVo convert(Information information) {
         InformationVo vo = new InformationVo();
         vo.setTitle(information.getTitle());
@@ -51,6 +54,9 @@ public class InformationVo {
         vo.setEndTimeStr(endTimeStr);
         vo.setStartTime(information.getStartTime());
         vo.setEndTime(information.getEndTime());
+        vo.setCount(information.getCount());
+        vo.setPeople(information.getPeople());
+        vo.setThumbnail(information.getThumbnail());
         return vo;
     }
 }
