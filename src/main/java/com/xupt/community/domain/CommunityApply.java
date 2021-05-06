@@ -18,4 +18,5 @@ public class CommunityApply extends BaseDoamin implements Serializable {
     //申请状态 未处理：0 成功：1 拒绝：2
     private Integer status;
     private String communityName;
+    private Long applyTime;
 }

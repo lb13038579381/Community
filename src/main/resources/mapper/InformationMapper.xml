@@ -12,25 +12,33 @@
 <select id="getLatestInformations" resultType="com.xupt.community.domain.Information">
     select * from information order by gmt_create desc limit 10
 </select>
-    <insert id="addInformation">
+    <insert id="addInformation"   parameterType="com.xupt.community.domain.Information">
         insert into information (
         title,
         text,
         time,
         address,
-        cov_pic_url,
+        thumbnail,
         poster_id,
         community_id,
-        gmt_create
+        gmt_create,
+        start_time,
+        end_time,
+        count,
+        people
         )values(
-        title,
-        text,
-        time,
-        address,
-        covPicUrl,
-        posterId,
-        communityId,
-        gmtCreate
+        #{title},
+        #{text},
+        #{time},
+        #{address},
+        #{thumbnail},
+        #{posterId},
+        #{communityId},
+        #{gmtCreate},
+        #{startTime},
+        #{endTime},
+        #{count},
+        #{people}
         )
     </insert>
     <select id="list" resultType="com.xupt.community.domain.Information">

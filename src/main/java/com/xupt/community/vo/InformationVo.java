@@ -31,6 +31,8 @@ public class InformationVo {
     private Integer people;
     private Integer type;
     private String thumbnail;
+    private Boolean isDirector;
+    private Integer errorCode;
     public static InformationVo convert(Information information) {
         InformationVo vo = new InformationVo();
         vo.setTitle(information.getTitle());

@@ -1,5 +1,6 @@
 package com.xupt.community.dao;
 
+import com.xupt.community.domain.MemberAndCommunity;
 import com.xupt.community.dto.MemberAndCommunityDto;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -25,4 +26,7 @@ public interface MemberAndCommunityDao {
 
     List<Long> getCommunityIdsByMemberIdAndType(Map<String,Object> params);
 
+    List<MemberAndCommunity> getByMemberId(Long memberId);
+
+    MemberAndCommunity getByMemberIdAndCommunityId(MemberAndCommunity memberAndCommunity);
 }

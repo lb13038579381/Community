@@ -14,12 +14,16 @@
         member_id,
         information_id,
         phone_number,
-        remark
+        remark,
+        status,
+        apply_time
         ) values(
         #{memberId},
         #{informationId},
         #{phoneNumber},
-        #{remark}
+        #{remark},
+        #{status},
+        #{applyTime}
         )
     </insert>
     <select id="getByInformationId" parameterType="java.lang.Long" resultType="com.xupt.community.domain.InformationApply">

@@ -2,11 +2,13 @@ package com.xupt.community.controller;
 
 import com.xupt.community.constant.InformationApplyConstant;
 import com.xupt.community.constant.InformationConstant;
+import com.xupt.community.constant.MemberAndCommunityConstant;
 import com.xupt.community.domain.*;
 import com.xupt.community.service.*;
 import com.xupt.community.util.DateUtils;
 import com.xupt.community.util.PropertyExtractUtils;
 import com.xupt.community.vo.CommunityDetailVo;
+import com.xupt.community.vo.IVo;
 import com.xupt.community.vo.InformationApplyVo;
 import com.xupt.community.vo.InformationVo;
 import lombok.extern.slf4j.Slf4j;
@@ -48,6 +50,9 @@ public class InformationController {
     @Autowired
     FollowService followService;
 
+    @Autowired
+    MemberAndCommunityService memberAndCommunityService;
+
     /**
      * @description:最新动态
      * @params: []
@@ -67,7 +72,7 @@ public class InformationController {
             result.add(informationDto);
         }
         if (CollectionUtils.isNotEmpty(result)) {
-            return result;
+            return result.subList(0, result.size() / 2);
         } else {
             return new ArrayList<>();
         }
@@ -181,8 +186,15 @@ public class InformationController {
     public InformationApplyVo addApply(@RequestBody InformationApply apply) {
         InformationApplyVo result = new InformationApplyVo();
         try {
+            List<Information> informationList = informationService.getByIds(Arrays.asList(apply.getInformationId()));
+            Information information = informationList.get(0);
+            if (information.getCount().equals(information.getPeople())) {
+                result.setErrorCode(InformationApplyConstant.FULLED);
+                return result;
+            }
             apply.setApplyTime(System.currentTimeMillis());
             apply.setStatus(InformationApplyConstant.PENDING);
+            apply.setApplyTime(System.currentTimeMillis());
             informationApplyService.add(apply);
             informationService.addCount(apply.getInformationId());
         } catch (Exception e) {
@@ -255,15 +267,27 @@ public class InformationController {
     }
 
     @RequestMapping("communityInformations")
-    public List<InformationVo> communityInformations(Long communityId) {
+    public IVo communityInformations(Long communityId,Long memberId) {
         if (communityId == null) {
-            return new ArrayList<>();
+            return new IVo();
+        }
+        Boolean isDirector = false;
+        if (memberId != null) {
+            List<MemberAndCommunity> memberAndCommunityList = memberAndCommunityService.getByMemberId(memberId);
+            for (MemberAndCommunity memberAndCommunity : memberAndCommunityList) {
+                if (memberAndCommunity.getType().equals(MemberAndCommunityConstant.MANAGER)) {
+                    isDirector = true;
+                }
+            }
         }
         List<Information> informationList = informationService.getByCommunityId(communityId);
+        IVo res = new IVo();
         if (CollectionUtils.isNotEmpty(informationList)) {
             List<InformationVo> result = new ArrayList<>();
             for (Information information : informationList) {
                 InformationVo vo = InformationVo.convert(information);
+                Community community = communityService.getById(information.getCommunityId());
+                vo.setCommunityName(community.getName());
                 Long startTime = information.getStartTime();
                 Long endTime = information.getEndTime();
                 Long nowTime = System.currentTimeMillis();
@@ -276,9 +300,11 @@ public class InformationController {
                 }
                 result.add(vo);
             }
-            return result;
+            res.setInformationVoList(result);
+            res.setIsDirector(isDirector);
+            return res;
         } else {
-            return new ArrayList<>();
+            return res;
         }
     }
 
@@ -290,9 +316,18 @@ public class InformationController {
      * @time: 2021/4/24 1:33 上午
      */
     @RequestMapping("all")
-    public List<InformationVo> all() {
+    public IVo all(Long memberId) {
         List<Information> informationList = informationService.list();
         List<InformationVo> result = new ArrayList<>();
+        Boolean isDirector = false;
+        if (memberId != null) {
+            List<MemberAndCommunity> memberAndCommunityList = memberAndCommunityService.getByMemberId(memberId);
+            for (MemberAndCommunity memberAndCommunity : memberAndCommunityList) {
+                if (memberAndCommunity.getType().equals(MemberAndCommunityConstant.MANAGER)) {
+                    isDirector = true;
+                }
+            }
+        }
         if (CollectionUtils.isNotEmpty(informationList)) {
             for (Information information : informationList) {
                 InformationVo vo = InformationVo.convert(information);
@@ -301,9 +336,14 @@ public class InformationController {
                 vo.setType(1);
                 result.add(vo);
             }
-            return result;
+            IVo res = new IVo();
+            res.setInformationVoList(result);
+            res.setIsDirector(isDirector);
+            return res;
         } else {
-            return new ArrayList<>();
+            IVo res = new IVo();
+            res.setInformationVoList(new ArrayList<>());
+            return res;
         }
     }
 
@@ -352,9 +392,31 @@ public class InformationController {
                 result.add(vo);
             }
             return result;
-        }else {
+        } else {
             return new ArrayList<>();
         }
+
+    }
+
+    @RequestMapping("newActivity")
+    public InformationVo newActivity(String title,String text,String address,String startTime,String endTime,String time,Integer people,Long communityId,Long memberId) {
+        InformationVo result = new InformationVo();
+            Information information = new Information();
+            information.setTitle(title);
+            information.setText(text);
+            information.setAddress(address);
+            information.setStartTime(DateUtils.convertToLong(startTime));
+            information.setEndTime(DateUtils.convertToLong(endTime));
+            information.setTime(DateUtils.convertToLong(time));
+            information.setPeople(people);
+            information.setCount(0);
+            information.setCommunityId(communityId);
+            information.setPosterId(memberId);
+            information.setThumbnail("333.jpg");
+            information.setGmtCreate(System.currentTimeMillis());
+            informationService.addInformation(information);
+            result.setErrorCode(0);
+            return result;
 
     }
 

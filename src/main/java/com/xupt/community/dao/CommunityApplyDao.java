@@ -18,4 +18,12 @@ public interface CommunityApplyDao {
     void delete(CommunityApply communityApply);
     List<CommunityApply> getCommunityAppliesByCommunityId(Long communityId);
     List<CommunityApply> getCommunityAppliesByMemberId(Long memberId);
+
+    CommunityApply getByMemberIdAndCommunityId(CommunityApply apply);
+    
+    void deleteById(Long id);
+    void refuseApply(Long id);
+    void adoptApply(Long id);
+
+    CommunityApply getById(Long id);
 }

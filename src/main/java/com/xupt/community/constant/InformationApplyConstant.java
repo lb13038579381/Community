@@ -6,4 +6,6 @@ public class InformationApplyConstant {
     public static final Integer PENDING = 0;
     public static final Integer ADOPT = 1;
     public static final Integer REJECT = 2;
+    public static final Integer FULLED = -1;
+
 }

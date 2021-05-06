@@ -41,6 +41,15 @@
     <select id="getCommunityIdsByMemberIdAndType" parameterType="java.util.Map" resultType="java.lang.Long">
         select community_id from member_and_community where member_id = #{memberId} and type = #{type}
     </select>
+    <select id="getByMemberId" parameterType="java.lang.Long" resultType="com.xupt.community.domain.MemberAndCommunity">
+        select * from member_and_community where member_id = #{memberId}
+    </select>
+
+    <select id="getByMemberIdAndCommunityId" parameterType="com.xupt.community.domain.MemberAndCommunity" resultType="com.xupt.community.domain.MemberAndCommunity">
+        select * from member_and_community where member_id = #{memberId} and community_id = #{communityId}
+    </select>
+
+
 
 
 </mapper>

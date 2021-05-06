@@ -1,5 +1,6 @@
 package com.xupt.community.service;
 
+import com.xupt.community.domain.MemberAndCommunity;
 import com.xupt.community.dto.MemberAndCommunityDto;
 
 import java.util.List;
@@ -21,4 +22,8 @@ public interface MemberAndCommunityService {
     void delete(MemberAndCommunityDto dto);
 
     List<Long> getCommunityIdsByMemberIdAndType(Long memberId, Integer type);
+
+    List<MemberAndCommunity> getByMemberId(Long memberId);
+
+    MemberAndCommunity getByMemberIdAndCommunityId(Long memberId, Long communityId);
 }

@@ -33,4 +33,34 @@ public class CommunityApplyImpl implements CommunityApplyService {
     public List<CommunityApply> getCommunityAppliesByMemberId(Long memberId) {
         return communityApplyDao.getCommunityAppliesByMemberId(memberId);
     }
+
+    @Override
+    public CommunityApply getByMemberIdAndCommunityId(Long memberId, Long communityId) {
+        CommunityApply apply = new CommunityApply();
+        apply.setMemberId(memberId);
+        apply.setCommunityId(communityId);
+        return communityApplyDao.getByMemberIdAndCommunityId(apply);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        communityApplyDao.deleteById(id);
+    }
+
+    @Override
+    public void refuseApply(Long id) {
+        communityApplyDao.refuseApply(id);
+
+    }
+
+    @Override
+    public void adoptApply(Long id) {
+        communityApplyDao.adoptApply(id);
+
+    }
+
+    @Override
+    public CommunityApply getById(Long id) {
+        return communityApplyDao.getById(id);
+    }
 }

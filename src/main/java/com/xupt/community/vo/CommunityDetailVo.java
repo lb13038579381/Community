@@ -26,6 +26,7 @@ public class CommunityDetailVo {
 
     private String thumbnail;
 
+    private Boolean isJoined;
     public static CommunityDetailVo convert2Vo(Community community) {
 
         CommunityDetailVo result = new CommunityDetailVo();

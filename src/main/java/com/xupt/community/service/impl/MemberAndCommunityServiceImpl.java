@@ -1,6 +1,7 @@
 package com.xupt.community.service.impl;
 
 import com.xupt.community.dao.MemberAndCommunityDao;
+import com.xupt.community.domain.MemberAndCommunity;
 import com.xupt.community.dto.MemberAndCommunityDto;
 import com.xupt.community.service.MemberAndCommunityService;
 import org.apache.commons.collections.CollectionUtils;
@@ -62,5 +63,18 @@ public class MemberAndCommunityServiceImpl implements MemberAndCommunityService 
         params.put("memberId", memberId);
         params.put("type", type);
         return memberAndCommunityDao.getCommunityIdsByMemberIdAndType(params);
+    }
+
+    @Override
+    public List<MemberAndCommunity> getByMemberId(Long memberId) {
+        return memberAndCommunityDao.getByMemberId(memberId);
+    }
+
+    @Override
+    public MemberAndCommunity getByMemberIdAndCommunityId(Long memberId, Long communityId) {
+        MemberAndCommunity memberAndCommunity = new MemberAndCommunity();
+        memberAndCommunity.setMemberId(memberId);
+        memberAndCommunity.setCommunityId(communityId);
+        return memberAndCommunityDao.getByMemberIdAndCommunityId(memberAndCommunity);
     }
 }

@@ -11,4 +11,12 @@ public interface CommunityApplyService {
     void delete(CommunityApply communityApply);
     List<CommunityApply> getCommunityAppliesByCommunityId(Long communityId);
     List<CommunityApply> getCommunityAppliesByMemberId(Long memberId);
+
+    CommunityApply getByMemberIdAndCommunityId(Long memberId, Long communityId);
+
+    void deleteById(Long id);
+    void refuseApply(Long id);
+    void adoptApply(Long id);
+
+    CommunityApply getById(Long id);
 }
