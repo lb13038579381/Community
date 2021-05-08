@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xupt.community.dao.FeedbackDao">
+    <select id="list" resultType="com.xupt.community.domain.Feedback">
+    select * from feedback
+</select>
+
+    <insert id="add" parameterType="com.xupt.community.domain.Feedback">
+        insert into feedback (
+        text
+        ) values (
+        #{text}
+        )
+    </insert>
+    <delete id="deleteById" parameterType="java.lang.Long">
+        delete from feedback where id = #{id}
+    </delete>
+</mapper>

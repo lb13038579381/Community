@@ -17,4 +17,6 @@ public interface InformationService {
     void addCount(Long informationId);
 
     List<Information> getByCommunityIds(List<Long> communityIds);
+
+    List<Information> hot();
 }

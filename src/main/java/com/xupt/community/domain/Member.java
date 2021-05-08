@@ -36,5 +36,7 @@ public class Member extends BaseDoamin implements Serializable {
     private Integer clazz;
     //密码（MD5加密）
     private String password;
+    //0 普通 1 超管
+    private Integer type;
 
 }

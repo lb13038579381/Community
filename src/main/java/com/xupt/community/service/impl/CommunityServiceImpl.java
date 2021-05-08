@@ -44,8 +44,8 @@ public class CommunityServiceImpl implements CommunityService {
     }
 
     @Override
-    public void addCommunity(CommunityDto communityDto) {
-        communityDao.addCommunity(communityDto);
+    public Long addCommunity(CommunityDto communityDto) {
+        return communityDao.addCommunity(communityDto);
     }
 
     @Override

@@ -1,11 +1,12 @@
 package com.xupt.community.dto;
 
+import com.xupt.community.util.BaseDoamin;
 import lombok.Data;
 
 import java.io.Serializable;
 
 @Data
-public class CommunityDto implements Serializable {
+public class CommunityDto extends BaseDoamin {
     private static final long serialVersionUID = 1L;
     //社团名称
     private String name;
@@ -17,4 +18,5 @@ public class CommunityDto implements Serializable {
     private Long directorId;
     //社团简介
     private String introduction;
+    private String thumbnail;
 }

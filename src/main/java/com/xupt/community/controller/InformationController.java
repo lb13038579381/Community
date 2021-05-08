@@ -18,7 +18,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -106,6 +110,16 @@ public class InformationController {
     @RequestMapping("list")
     public List<Information> list() {
         List<Information> result = informationService.list();
+        if (CollectionUtils.isNotEmpty(result)) {
+            return result.subList(0, result.size() / 2);
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
+    @RequestMapping("hot")
+    public List<Information> hot() {
+        List<Information> result = informationService.hot();
         if (CollectionUtils.isNotEmpty(result)) {
             return result.subList(0, result.size() / 2);
         } else {
@@ -267,7 +281,7 @@ public class InformationController {
     }
 
     @RequestMapping("communityInformations")
-    public IVo communityInformations(Long communityId,Long memberId) {
+    public IVo communityInformations(Long communityId, Long memberId) {
         if (communityId == null) {
             return new IVo();
         }
@@ -304,6 +318,7 @@ public class InformationController {
             res.setIsDirector(isDirector);
             return res;
         } else {
+            res.setIsDirector(isDirector);
             return res;
         }
     }
@@ -399,24 +414,61 @@ public class InformationController {
     }
 
     @RequestMapping("newActivity")
-    public InformationVo newActivity(String title,String text,String address,String startTime,String endTime,String time,Integer people,Long communityId,Long memberId) {
+    public InformationVo newActivity(HttpServletRequest request, @RequestParam(value = "file", required = false) MultipartFile file, String title, String text, String address, String startTime, String endTime, String time, Integer people, Long communityId, Long memberId
+    ) throws IOException {
+//        String title = request.getParameter("title");
+//        String text = request.getParameter("text");
+//        String address = request.getParameter("address");
+//        String startTime = request.getParameter("startTime");
+//        String endTime = request.getParameter("endTime");
+//        String time = request.getParameter("time");
+//        Integer people = Integer.parseInt(request.getParameter("people"));
+//        Long communityId = Long.parseLong(request.getParameter("communityId"));
+//        Long memberId = Long.parseLong(request.getParameter("memberId"));
         InformationVo result = new InformationVo();
-            Information information = new Information();
-            information.setTitle(title);
-            information.setText(text);
-            information.setAddress(address);
-            information.setStartTime(DateUtils.convertToLong(startTime));
-            information.setEndTime(DateUtils.convertToLong(endTime));
-            information.setTime(DateUtils.convertToLong(time));
-            information.setPeople(people);
-            information.setCount(0);
-            information.setCommunityId(communityId);
-            information.setPosterId(memberId);
-            information.setThumbnail("333.jpg");
-            information.setGmtCreate(System.currentTimeMillis());
-            informationService.addInformation(information);
-            result.setErrorCode(0);
-            return result;
+        request.setCharacterEncoding("UTF-8");
+        if (!file.isEmpty()) {
+            String fileName = file.getOriginalFilename();
+            String path = null;
+            String type = null;
+            type = fileName.indexOf(".") != -1 ? fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length()) : null;
+            if (type != null) {
+                if ("JPEG".equals(type.toUpperCase()) || "PNG".equals(type.toUpperCase()) || "JPG".equals(type.toUpperCase())) {
+                    // 项目在容器中实际发布运行的根路径
+//                    String realPath = request.getSession().getServletContext().getRealPath("/");
+                    // 自定义的文件名称
+                    String trueFileName = (System.currentTimeMillis()) + fileName;
+                    // 设置存放图片文件的路径
+                    path = "/Users/libo/Public/bishe/wx-small-program/wxtest/images/" + trueFileName;
+                    file.transferTo(new File(path));
+
+                    Information information = new Information();
+                    information.setTitle(title);
+                    information.setText(text);
+                    information.setAddress(address);
+                    information.setStartTime(DateUtils.convertToLong(startTime));
+                    information.setEndTime(DateUtils.convertToLong(endTime));
+                    information.setTime(DateUtils.convertToLong(time));
+                    information.setPeople(people);
+                    information.setCount(0);
+                    information.setCommunityId(communityId);
+                    information.setPosterId(memberId);
+                    information.setThumbnail(trueFileName);
+                    information.setGmtCreate(System.currentTimeMillis());
+                    informationService.addInformation(information);
+                    result.setErrorCode(0);
+
+                } else {
+                    logger.info("不是我们想要的文件类型,请按要求重新上传");
+                }
+            } else {
+                logger.info("文件类型为空");
+            }
+        } else {
+            logger.info("没有找到相对应的文件");
+        }
+
+        return result;
 
     }
 

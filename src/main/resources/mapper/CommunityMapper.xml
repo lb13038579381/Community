@@ -18,21 +18,23 @@
         select * from community where owner_id = #{ownerId}
     </select>
 
-    <insert id="addCommunity" parameterType="com.xupt.community.dto.CommunityDto">
+    <insert id="addCommunity" parameterType="com.xupt.community.dto.CommunityDto"  useGeneratedKeys="true" keyProperty="id">
         insert into community
         (name,
         type,
         owner_id,
         director_id,
-        introduction
-        value)
+        introduction,
+        thumbnail
+        )
         values
             (
             #{name},
             #{type},
             #{ownerId},
             #{directorId},
-            ${introduction}
+            #{introduction},
+            #{thumbnail}
             )
     </insert>
     <select id="getByCommunityIds" parameterType="java.util.List" resultType="com.xupt.community.domain.Community">

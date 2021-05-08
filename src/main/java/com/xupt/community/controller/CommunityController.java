@@ -3,22 +3,25 @@ package com.xupt.community.controller;
 import com.xupt.community.constant.CommunityApplyConstant;
 import com.xupt.community.constant.MemberAndCommunityConstant;
 import com.xupt.community.domain.*;
+import com.xupt.community.dto.CommunityDto;
 import com.xupt.community.dto.MemberAndCommunityDto;
 import com.xupt.community.exception.FrontException;
 import com.xupt.community.service.*;
 import com.xupt.community.util.DateUtils;
 import com.xupt.community.util.PropertyExtractUtils;
-import com.xupt.community.vo.ApplyVo;
-import com.xupt.community.vo.CommunityApplyVo;
-import com.xupt.community.vo.CommunityDetailVo;
-import com.xupt.community.vo.CommunityVo;
+import com.xupt.community.vo.*;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
+import org.checkerframework.checker.units.qual.A;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +51,12 @@ public class CommunityController {
 
     @Autowired
     CommunityApplyService communityApplyService;
+
+    @Autowired
+    FeedbackService feedbackService;
+
+    @Autowired
+    NewCommunityApplyService newCommunityApplyService;
 
     @RequestMapping(value = "getCommunityByName")
     public List<Community> getCommunityByName(String words) {
@@ -291,7 +300,8 @@ public class CommunityController {
         vo.setMsg("删除成功");
         return vo;
     }
-    @RequestMapping(value = "applyList",method = RequestMethod.POST)
+
+    @RequestMapping(value = "applyList", method = RequestMethod.POST)
     public List<CommunityApplyVo> applyList(Long communityId) {
         List<CommunityApply> applyList = communityApplyService.getCommunityAppliesByCommunityId(communityId);
         List<CommunityApplyVo> result = new ArrayList<>();
@@ -306,5 +316,149 @@ public class CommunityController {
             result.add(vo);
         }
         return result;
+    }
+
+    @RequestMapping("submitFeedback")
+    public CodeVo submitFeedback(String text) {
+        Feedback feedback = new Feedback();
+        feedback.setText(text);
+        CodeVo result = new CodeVo();
+        try {
+            feedbackService.add(feedback);
+            result.setErrorCode(0);
+            return result;
+        } catch (Exception e) {
+            result.setErrorCode(-1);
+            return result;
+        }
+    }
+
+    @RequestMapping("newCommunityApply")
+    public CodeVo newCommunityApply(HttpServletRequest request, @RequestParam(value = "file", required = false) MultipartFile file, String name, Long directorId, String introduction, String remark) throws IOException {
+        request.setCharacterEncoding("UTF-8");
+        CodeVo vo = new CodeVo();
+        if (!file.isEmpty()) {
+            String fileName = file.getOriginalFilename();
+            String path = null;
+            String type = null;
+            type = fileName.indexOf(".") != -1 ? fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length()) : null;
+            if (type != null) {
+                if ("JPEG".equals(type.toUpperCase()) || "PNG".equals(type.toUpperCase()) || "JPG".equals(type.toUpperCase())) {
+                    String trueFileName = (System.currentTimeMillis()) + fileName;
+                    path = "/Users/libo/Public/bishe/wx-small-program/wxtest/images/" + trueFileName;
+                    file.transferTo(new File(path));
+
+                    NewCommunityApply apply = new NewCommunityApply();
+                    apply.setDirectorId(directorId);
+                    apply.setIntroduction(introduction);
+                    apply.setName(name);
+                    apply.setRemark(remark);
+                    apply.setStatus(CommunityApplyConstant.NOT_HANDLE);
+                    apply.setTime(System.currentTimeMillis());
+                    apply.setThumbnail(trueFileName);
+                    try {
+                        newCommunityApplyService.add(apply);
+                        vo.setErrorCode(0);
+                        System.out.println("正常返回");
+                        return vo;
+                    } catch (Exception e) {
+                        System.out.println("异常");
+                        vo.setErrorCode(-1);
+                        return vo;
+                    }
+
+                } else {
+                    logger.info("不是我们想要的文件类型,请按要求重新上传");
+                }
+            } else {
+                logger.info("文件类型为空");
+            }
+        } else {
+            logger.info("没有找到相对应的文件");
+        }
+        vo.setErrorCode(-1);
+        return vo;
+    }
+
+    @RequestMapping("newCommunityApplyList")
+    public List<NewCommunityApplyVo> newCommunityApplyList() {
+        List<NewCommunityApply> applies = newCommunityApplyService.list();
+        if (CollectionUtils.isEmpty(applies)) {
+            return new ArrayList<>();
+        }
+        List<NewCommunityApplyVo> res = new ArrayList<>();
+        for (NewCommunityApply apply : applies) {
+            NewCommunityApplyVo vo = NewCommunityApplyVo.convert(apply);
+            res.add(vo);
+        }
+        return res;
+    }
+
+    @RequestMapping("adoptCommunityApply")
+    public ApplyVo adoptCommunityApply(Long id) {
+        NewCommunityApply apply = newCommunityApplyService.getById(id);
+        ApplyVo vo = new ApplyVo();
+        if (apply.getStatus().equals(CommunityApplyConstant.NOT_HANDLE)) {
+            newCommunityApplyService.adoptApply(id);
+
+            CommunityDto community = new CommunityDto();
+            community.setDirectorId(apply.getDirectorId());
+            community.setIntroduction(apply.getIntroduction());
+            community.setName(apply.getName());
+            community.setOwnerId(-1L);
+            community.setThumbnail("333.jpg");
+            community.setType(1);
+            community.setThumbnail(apply.getThumbnail());
+            communityService.addCommunity(community);
+
+            MemberAndCommunityDto memberAndCommunity = new MemberAndCommunityDto();
+            memberAndCommunity.setCommunityId(community.getId());
+            memberAndCommunity.setMemberId(apply.getDirectorId());
+            memberAndCommunity.setType(MemberAndCommunityConstant.MANAGER);
+            memberAndCommunityService.add(memberAndCommunity);
+
+            vo.setMsg("通过成功");
+            return vo;
+        } else if (apply.getStatus().equals(CommunityApplyConstant.SUCCESS)) {
+            vo.setMsg("无须重复通过");
+            return vo;
+        } else if (apply.getStatus().equals(CommunityApplyConstant.APPLY_FAIL)) {
+            vo.setMsg("已拒绝，无法重新通过");
+            return vo;
+        }
+        vo.setMsg("未知异常");
+        return vo;
+    }
+
+    @RequestMapping("refuseCommunityApply")
+    public ApplyVo refuseCommunityApply(Long id) {
+        NewCommunityApply apply = newCommunityApplyService.getById(id);
+        ApplyVo vo = new ApplyVo();
+        if (apply.getStatus().equals(CommunityApplyConstant.NOT_HANDLE)) {
+            newCommunityApplyService.refuseApply(id);
+            vo.setMsg("拒绝成功");
+            return vo;
+        } else if (apply.getStatus().equals(CommunityApplyConstant.SUCCESS)) {
+            vo.setMsg("已通过，无法拒绝");
+            return vo;
+        } else if (apply.getStatus().equals(CommunityApplyConstant.APPLY_FAIL)) {
+            vo.setMsg("无须重复拒绝");
+            return vo;
+        }
+        vo.setMsg("未知异常");
+        return vo;
+    }
+
+    @RequestMapping("deleteCommunityApply")
+    public ApplyVo deleteCommunityApply(Long id) {
+        ApplyVo vo = new ApplyVo();
+        try {
+            newCommunityApplyService.deleteById(id);
+        } catch (Exception e) {
+            vo.setMsg("未知异常");
+            return vo;
+        }
+        vo.setMsg("删除成功");
+        return vo;
     }
 }

@@ -29,7 +29,7 @@ public interface CommunityDao {
     List<Community> getByName(String name);
     List<Community> getByType(List<Integer> types);
     List<Community> getByOwnerId(Long ownerId);
-    void addCommunity(CommunityDto communityDto);
+    Long addCommunity(CommunityDto communityDto);
     List<Community> getByCommunityIds(List<Long> communityIds);
     List<Community> list();
     List<Community> getByIds(List<Long> communityIds);

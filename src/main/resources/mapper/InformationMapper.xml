@@ -42,7 +42,7 @@
         )
     </insert>
     <select id="list" resultType="com.xupt.community.domain.Information">
-        select * from information order by gmt_create desc
+        select * from information order by id desc
     </select>
 
     <select id="getByCommunityId" parameterType="java.lang.Long" resultType="com.xupt.community.domain.Information">
@@ -58,5 +58,8 @@
         <foreach collection="communityIds" item="item" index="index" open="(" separator="," close=")">
             #{item}
         </foreach>
+    </select>
+    <select id="hot"  resultType="com.xupt.community.domain.Information">
+        select * from information order by count desc
     </select>
 </mapper>
