@@ -19,6 +19,7 @@ public class CommunityApplication {
         //5
 =======
 >>>>>>> reset
+        //6
         SpringApplication.run(CommunityApplication.class, args);
     }
 
