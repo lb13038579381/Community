@@ -10,6 +10,7 @@ public class CommunityApplication {
         //1
         //2
         //3
+        //4
         SpringApplication.run(CommunityApplication.class, args);
     }
 
