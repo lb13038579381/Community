@@ -38,7 +38,7 @@ public class CommunityApplyController {
 
     @Autowired
     CommunityService communityService;
-
+//222
     //我的申请
     @RequestMapping("getCommunityApplyListByMemberId")
     public List<CommunityApplyVo> getCommunityApplyListByMemberId(Long memberId) {
