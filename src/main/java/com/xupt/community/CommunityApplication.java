@@ -9,6 +9,7 @@ public class CommunityApplication {
     public static void main(String[] args) {
         //1
         //2
+        //3
         SpringApplication.run(CommunityApplication.class, args);
     }
 
