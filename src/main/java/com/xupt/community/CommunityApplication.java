@@ -7,6 +7,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class CommunityApplication {
 
     public static void main(String[] args) {
+        //1
+        //2
+        //4
+        //5
+        //6
         //4
         //5
         //8
