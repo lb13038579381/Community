@@ -9,6 +9,7 @@ public class CommunityApplication {
     public static void main(String[] args) {
         //1
         //2
+<<<<<<< HEAD
         //4
         //5
         //6
@@ -16,6 +17,8 @@ public class CommunityApplication {
         //5
         //8
         //5
+=======
+>>>>>>> reset
         SpringApplication.run(CommunityApplication.class, args);
     }
 
