@@ -8,6 +8,8 @@ public class CommunityApplication {
 
     public static void main(String[] args) {
         //4
+        //5
+        //8
         SpringApplication.run(CommunityApplication.class, args);
     }
 
