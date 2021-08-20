@@ -11,6 +11,7 @@ public class CommunityApplication {
         //2
         //3
         //4
+        //5
         SpringApplication.run(CommunityApplication.class, args);
     }
 
