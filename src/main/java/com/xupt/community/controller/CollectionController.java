@@ -38,6 +38,7 @@ public class CollectionController {
      * @author: lb
      * @time: 2021/4/8 12:14 上午
      */
+    //111
     @RequestMapping("myCollections")
     public List<InformationVo> getCollectionsByMemberId(Long memberId) {
         if (memberId == null) {
