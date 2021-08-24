@@ -14,10 +14,14 @@ public class CommunityApplication {
         //6
         //4
         //5
-        //8
         //3
         //4
+        //5
+        //8
+        //5
         //6
+        //1
+        //2
         SpringApplication.run(CommunityApplication.class, args);
     }
 
