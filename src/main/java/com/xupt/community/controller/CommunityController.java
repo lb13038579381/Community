@@ -35,6 +35,7 @@ import java.util.Map;
 @Slf4j
 @RequestMapping("communityController")
 public class CommunityController {
+    //3
     private static Logger logger = LoggerFactory.getLogger(CommunityController.class);
 
     @Autowired
