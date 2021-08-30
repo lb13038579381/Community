@@ -22,6 +22,7 @@ public class CommunityApplication {
         //6
         //1
         //2
+        //develop
         SpringApplication.run(CommunityApplication.class, args);
     }
 
