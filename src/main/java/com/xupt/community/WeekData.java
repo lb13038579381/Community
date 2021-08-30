@@ -18,6 +18,8 @@ public class WeekData{
 
     public LocalDate getStart() {
         return start;
+
+
     }
 
     public void setStart(LocalDate start) {
