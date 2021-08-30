@@ -32,6 +32,7 @@ import java.util.Map;
 @Resource
 public class CommunityApplyController {
     private static Logger logger = LoggerFactory.getLogger(CommunityController.class);
+    //2
 
     @Autowired
     CommunityApplyService communityApplyService;
