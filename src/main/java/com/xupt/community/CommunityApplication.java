@@ -25,6 +25,7 @@ public class CommunityApplication {
         //develop
         //dep1
         //dep2
+        //dep3
         SpringApplication.run(CommunityApplication.class, args);
     }
 
