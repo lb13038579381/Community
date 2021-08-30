@@ -12,6 +12,7 @@ public class CommunityApplication {
         //4
         //5
         //6
+        //release
         SpringApplication.run(CommunityApplication.class, args);
     }
 
